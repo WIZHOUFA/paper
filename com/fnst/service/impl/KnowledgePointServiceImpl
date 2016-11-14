@@ -1,0 +1,48 @@
+package com.fnst.paper.service.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.fnst.paper.dao.impl.KnowledgePointDao;
+import com.fnst.paper.pojo.KnowledgePoint;
+import com.fnst.paper.service.KnowledgePointService;
+
+@Transactional
+@Service("knowledgePointService")
+public class KnowledgePointServiceImpl extends BaseServiceImpl<KnowledgePoint> implements KnowledgePointService{
+	@Resource
+	private KnowledgePointDao knowledgePoint;
+	public List<KnowledgePoint> listAllKnowledge(String content){
+		String hql = "From KnowledgePoint k where k.content like ?";
+		content = "%" + content + "%";
+		List<Object> params = new ArrayList<Object>();
+		params.add(content);
+		return find(hql,params);
+	}
+
+	@Override
+	public boolean saveKp(KnowledgePoint kp) {
+		try {
+			knowledgePoint.saveKp(kp);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	@Override
+	public int isExsit(String content) {
+		String hql="From KnowledgePoint k where k.content='"+content+"'";
+		List<KnowledgePoint> list=knowledgePoint.find(hql);
+		if(list!=null && list.size()>0){
+			return list.get(0).getkId();
+		}else{
+			return -1;
+		}
+	}
+}
