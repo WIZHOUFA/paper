@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.fnst.paper.pojo.Question" table="question">
+        <id name="qId" type="int" column="q_id">  
+            <generator class="increment"></generator>  
+        </id>  
+          
+        <property name="content" column="content" type="string"></property>  
+        <property name="answer" column="answer" type="string"></property>  
+        <property name="choice" column="choice" type="string"></property>
+        <property name="attachMent" column="attach_ment" type="string"></property>
+        <property name="createTime" column="create_time" type="date"></property>
+        <property name="modifyTime" column="modify_time" type="date"></property>
+        <property name="avaliable" column="avaliable" type="int"></property>
+        <property name="level" column="level" type="int"></property>
+        <many-to-one name="type" class="com.fnst.paper.pojo.QuestionType"
+                column="qt_id" lazy="false"
+        ></many-to-one>
+        
+        <many-to-one name="knowledge" class="com.fnst.paper.pojo.KnowledgePoint"
+                column="k_id" lazy="false"
+        ></many-to-one>
+        
+        <set name="rels" table="paper_question_rel" lazy="true" inverse="true">
+            <key column="q_id" /><!-- 确定关联的外键列 -->
+            <one-to-many class="com.fnst.paper.pojo.PaperQuestionRel" />
+        </set>
+    </class>
+</hibernate-mapping>
