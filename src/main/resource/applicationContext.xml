@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+    
+    <!-- 说明：下面有的Bean配置提供了多种方案，请根据需要采用某一种（别忘了注释掉其他同类方案） -->
+
+	<!-- 自动扫描Spring注解配置 -->
+	<context:component-scan base-package="com.fnst.paper" />
+
+	<!-- 自动加载属性配置文件 -->
+	<context:property-placeholder location="classpath:jdbc.properties" />
+	
+	
+
+	<!-- 配置数据源：方法一，使用C3P0方式（推荐） -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" 
+		destroy-method="close"
+		p:driverClass="${jdbc.driverClassName}"
+		p:jdbcUrl="${jdbc.url}" 
+		p:user="${jdbc.username}" 
+		p:password="${jdbc.password}" />
+	 
+	
+
+	<!-- 配置Hibernate的数据源代理工厂：方法一，使用p属性通配符，按文件名搜索匹配的映射文件 -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
+		p:dataSource-ref="dataSource" p:mappingLocations="classpath*:/com/**/*.hbm.xml">
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+				<prop key="hibernate.cache.use_second_level_cache">${hibernate.cache.use_second_level_cache}</prop>
+				<prop key="hibernate.cache.use_query_cache">${hibernate.cache.use_query_cache}</prop>
+				<prop key="hibernate.cache.region.factory_class">${hibernate.cache.region.factory_class}</prop>
+			</props>
+		</property>
+	</bean>
+	 
+	 
+
+	<!-- 配置事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager"
+		p:sessionFactory-ref="sessionFactory" />
+		
+
+	<!-- 配置声明式事务：方法一，在Service实现类或者public实现方法上使用注解@Transactional，则此类或方法就会启用事务机制 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	 
+	 
+	
+	<!-- 下面三个Bean的配置可有可无，但配置后用处更大，通常用于BaseDao类、其他Dao类或特殊工具类中 -->
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate"
+		p:sessionFactory-ref="sessionFactory" />
+		
+	<bean id="hibernateDaoSupport" class="org.springframework.orm.hibernate4.support.HibernateDaoSupport"
+		p:hibernateTemplate-ref="hibernateTemplate" abstract="true"/>
+		
+	<bean id="sessionFactoryUtils" class="org.springframework.orm.hibernate4.SessionFactoryUtils" abstract="true"/>
+	
+
+
+</beans>
