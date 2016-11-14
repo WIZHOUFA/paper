@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping SYSTEM "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd" PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN">
+
+-<hibernate-mapping>
+
+
+-<class table="question_type" name="com.fnst.paper.pojo.QuestionType">
+
+
+-<id name="qtId" column="qt_id" type="int">
+
+<generator class="increment"/>
+
+</id>
+
+<property name="typeName" column="type_name" type="string"/>
+
+
+-<set table="question" name="questions" inverse="true" lazy="true" order-by="q_id asc">
+
+<key column="qt_id"/>
+
+<!-- 确定关联的外键列 -->
+
+
+<one-to-many class="com.fnst.paper.pojo.Question"/>
+
+</set>
+
+</class>
+
+</hibernate-mapping>
