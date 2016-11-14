@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+
+
+	<!-- 指定Web应用的默认编码，相当于调用request的setCharacterEncoding方法 -->
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<!-- 设置浏览器是否缓存静态内容，默认值为true(生产环境下使用)，开发阶段最好关闭 -->
+	<constant name="struts.serve.static.browserCache" value="false" />
+	<!-- 当Struts2的配置文件修改后，系统是否自动重新加载配置文件，默认值为false(生产环境下使用)，开发阶段最好打开 -->
+	<constant name="struts.configuration.xml.reload" value="true" />
+	<!-- 开发模式下使用，这样可以打印出更详细的日志信息 -->
+	<constant name="struts.devMode" value="true" />
+	<!-- 默认的视图主题 -->
+	<constant name="struts.ui.theme" value="simple" />
+	<!-- 把Action对象交给Spring创建和管理 -->
+	<constant name="struts.objectFactory" value="spring" />
+	<!-- Struts2处理的请求后缀,默认值是do -->
+	<constant name="struts.action.extension" value="do" />
+	
+	<!-- 国际化资源文件
+	<constant name="struts.custom.i18n.resources" value="globalMessages" />
+	 -->
+
+	<package name="paper" extends="json-default">
+
+		<default-action-ref name="indexPage" />
+		<!--  
+		<global-results>
+			<result name="exceptionPage">/error/exceptionPage.jsp</result>
+		</global-results>
+		
+		<global-exception-mappings>
+			<exception-mapping result="exceptionPage" exception="java.lang.Exception" />
+		</global-exception-mappings>
+		-->
+		<action name="question*" method="question{1}" class="com.fnst.paper.web.action.QuestionAction">
+			<result name="list">/questionList.jsp</result>
+			<result name="toAdd">/questiontoAdd.jsp</result>
+			<result name="toupdate">/questionList.do</result>
+			<result name="showques" type="chain">
+				<param name="actionName">questionList</param>
+				<param name="msg">${msg}</param>	
+            </result>
+            <result name="queryq">/questionUpdate.jsp</result>
+			<result name="question{1}">/question{1}.jsp</result>
+			<result name="gototoAdd" type="chain">questiontoAdd</result>
+			<result name="success" type="json">
+				<param name="root">dataMap</param>  
+			</result>
+		</action>
+		
+		<action name="paper*" method="paper{1}" class="com.fnst.paper.web.action.PaperAction">
+			<result name="paper{1}">/paper{1}.jsp</result>
+			<result name="paperShow">/paperShow.jsp</result>
+			<result name="paperAdd">/paperAddPage.jsp</result>
+			<result name="success" type="chain">paperList</result>
+			<result name="paperList">/history.jsp</result>
+			<result name="paperDelete" type="chain">
+				<param name="actionName">paperList</param>
+				<param name="msg">${msg}</param>	
+			</result>
+		</action>
+		<!--  
+		<action name="login" method="login" class="com.hysd.action.LoginAction">
+			<result name="success">/success.jsp</result>
+			<result name="failure">/failure.jsp</result>
+			<result name="error">/login.jsp</result>
+		</action>
+		-->
+	</package>
+
+</struts>
