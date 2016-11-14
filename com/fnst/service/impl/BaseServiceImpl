@@ -1,0 +1,113 @@
+package com.fnst.paper.service.impl;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import com.fnst.paper.dao.BaseDAO;
+import com.fnst.paper.service.BaseService;
+
+/**
+ * 
+ * @author zhouw.fnst
+ *
+ * @param <T>
+ */
+
+public class BaseServiceImpl<T> implements BaseService<T>{
+	
+	@Resource
+	private BaseDAO<T> baseDAO;
+
+	public Serializable save(T o) {
+		// TODO Auto-generated method stub
+		return baseDAO.save(o);
+	}
+
+	public void delete(T o) {
+		// TODO Auto-generated method stub
+		baseDAO.delete(o);
+	}
+
+	public void update(T o) {
+		// TODO Auto-generated method stub
+		baseDAO.update(o);
+	}
+
+	public void saveOrUpdate(T o) {
+		// TODO Auto-generated method stub
+		baseDAO.saveOrUpdate(o);
+	}
+
+	public List<T> find(String hql) {
+		// TODO Auto-generated method stub
+		return baseDAO.find(hql);
+	}
+
+	public List<T> find(String hql, Object[] param) {
+		// TODO Auto-generated method stub
+		return baseDAO.find(hql, param);
+	}
+
+	public List<T> find(String hql, List<Object> param) {
+		// TODO Auto-generated method stub
+		return baseDAO.find(hql, param);
+	}
+
+	public List<T> find(String hql, Object[] param, Integer page, Integer rows) {
+		// TODO Auto-generated method stub
+		return baseDAO.find(hql, param, page, rows);
+	}
+
+	public List<T> find(String hql, List<Object> param, Integer page,
+			Integer rows) {
+		// TODO Auto-generated method stub
+		return baseDAO.find(hql, param, page, rows);
+	}
+
+	public T get(Class<T> c, Serializable id) {
+		// TODO Auto-generated method stub
+		return baseDAO.get(c, id);
+	}
+
+	public T get(String hql, Object[] param) {
+		// TODO Auto-generated method stub
+		return baseDAO.get(hql, param);
+	}
+
+	public T get(String hql, List<Object> param) {
+		// TODO Auto-generated method stub
+		return baseDAO.get(hql, param);
+	}
+
+	public Long count(String hql) {
+		// TODO Auto-generated method stub
+		return baseDAO.count(hql);
+	}
+
+	public Long count(String hql, Object[] param) {
+		// TODO Auto-generated method stub
+		return baseDAO.count(hql, param);
+	}
+
+	public Long count(String hql, List<Object> param) {
+		// TODO Auto-generated method stub
+		return baseDAO.count(hql, param);
+	}
+
+	public Integer executeHql(String hql) {
+		// TODO Auto-generated method stub
+		return baseDAO.executeHql(hql);
+	}
+
+	public Integer executeHql(String hql, Object[] param) {
+		// TODO Auto-generated method stub
+		return baseDAO.executeHql(hql, param);
+	}
+
+	public Integer executeHql(String hql, List<Object> param) {
+		// TODO Auto-generated method stub
+		return baseDAO.executeHql(hql, param);
+	}
+}
