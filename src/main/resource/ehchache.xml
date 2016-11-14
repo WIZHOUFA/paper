@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache>
+	<!-- 默认的磁盘缓存目录 -->
+    <diskStore path="java.io.tmpdir"/>
+    
+    <!-- 默认缓存策略 -->
+    <defaultCache
+        maxElementsInMemory="10000"
+        eternal="false"
+        overflowToDisk="false"
+        timeToIdleSeconds="120"
+        timeToLiveSeconds="120" />
+    
+    <!-- 用于整合Hibernate二级缓存：缓存领域对象 -->
+   
+    <cache name="com.fnst.paper.pojo.Question"
+        maxElementsInMemory="10000"
+        eternal="false"
+        overflowToDisk="false"
+        timeToIdleSeconds="300"
+        timeToLiveSeconds="600" />
+        
+        
+    <!-- 用于整合Hibernate查询缓存，参考地址：http://www.cnblogs.com/hoojo/archive/2012/07/12/2587941.html -->
+    <cache name="org.hibernate.cache.spi.UpdateTimestampsCache"
+    	maxElementsInMemory="5000"
+    	eternal="true"
+    	overflowToDisk="true" />
+    	
+	<cache name="org.hibernate.cache.internal.StandardQueryCache"
+    	maxElementsInMemory="10000"
+    	eternal="false"
+    	overflowToDisk="true"
+    	timeToLiveSeconds="120" />
+        
+</ehcache>
+
+<!-- 
+        配置自定义缓存
+        maxElementsInMemory：缓存中允许创建的最大对象数
+        eternal：缓存中对象是否为永久的，如果是true，超时设置将被忽略，对象从不过期。
+        overflowToDisk：内存不足时，是否启用磁盘缓存。
+        timeToIdleSeconds：缓存数据的钝化时间，也就是在一个元素消亡之前，
+                    两次访问时间的最大时间间隔值，这只能在元素不是永久驻留时有效，
+                    如果该值是0，就意味着元素可以停顿无穷长的时间。
+                    （即：设置缓存中的对象在过期之前的最大空闲时间，单位秒）
+        timeToLiveSeconds：缓存数据的生存时间，也就是一个元素从构建到消亡的最大时间间隔值，
+                    这只能在元素不是永久驻留时有效，如果该值是0，就意味着元素可以停顿无穷长的时间。
+                    （即：设置缓存中的对象在过期之前的最大生存时间，单位秒）
+        memoryStoreEvictionPolicy：缓存满了之后的淘汰算法。共有三种：FIFO-先进先出，LFO-最少使用的出，LRO-最久没用的出。
+ -->
