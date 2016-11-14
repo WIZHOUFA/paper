@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.fnst.paper.pojo.KnowledgePoint" table="knowledge_point">
+		<id name="kId" type="int" column="k_id">  
+            <generator class="increment"></generator>  
+        </id>  
+          
+        <property name="content" column="content" type="string"></property>  
+        
+        <set name="questions" table="question" order-by="k_id asc"
+            lazy="true" inverse="true">
+            <key column="k_id" /><!-- 确定关联的外键列 -->
+            <one-to-many class="com.fnst.paper.pojo.Question" />
+        </set>
+	</class>
+</hibernate-mapping>
