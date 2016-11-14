@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+
+		<!-- 基本配置：JDBC方式 -->
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/hibernate4demo?useUnicode=true&amp;characterEncoding=utf-8</property>
+		<property name="hibernate.connection.username">root</property>
+		<property name="hibernate.connection.password">123456</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+
+
+		<!-- 扩展配置 -->
+		<property name="hibernate.show_sql">true</property>
+		<property name="hibernate.format_sql">true</property>
+		<property name="hibernate.hbm2ddl.auto">update</property>
+		<property name="hibernate.jdbc.fetch_size">100</property>
+		<property name="hibernate.jdbc.batch_size">30</property>
+		
+
+		<!-- 配置二级缓存 -->
+		<property name="hibernate.cache.use_second_level_cache">true</property>
+		<property name="hibernate.cache.use_query_cache">true</property>
+		<!-- Hibernate4，这里和Hibernate3不一样，要特别注意！！！ -->
+		<property name="hibernate.cache.region.factory_class">org.hibernate.cache.EhCacheRegionFactory</property>
+		<!-- Hibernate3 -->
+		<!-- <property name="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</property> -->
+		
+
+		<!-- 配置C3P0 -->
+		<property name="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+		<property name="hibernate.c3p0.max_size">10</property>
+		<property name="hibernate.c3p0.min_size">1</property>
+		<property name="hibernate.c3p0.max_statements">3</property>
+		<property name="hibernate.c3p0.timeout">30</property>
+		<property name="hibernate.c3p0.acquire_increment">1</property>
+		<property name="hibernate.c3p0.idle_test_periodt">10</property>
+		
+
+		<!-- 领域对象：映射文件方式 -->
+		<mapping resource="com/hysd/domain/Customer.hbm.xml" />
+		<mapping resource="com/hysd/domain/Order.hbm.xml" />
+		<mapping resource="com/hysd/domain/Emp.hbm.xml" />
+		<!-- 领域对象：Annotation注解方式
+		<mapping class="实体类全限定名" />
+		 -->
+		
+		
+	</session-factory>
+</hibernate-configuration>
