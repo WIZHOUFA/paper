@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.fnst.paper.pojo.Paper" table="paper">
+		<id name="paperId" column="paper_id" type="int">  
+            <generator class="increment"></generator>  
+        </id>  
+          
+        <property name="paperName" column="paper_name" type="string"></property>  
+        <property name="createTime" column="create_time" type="date"></property>  
+        <property name="type" column="type" type="string"></property>
+        <property name="totalScore" column="total_score" type="int"></property>
+        <property name="content" column="content" type="string"></property>
+        <property name="answerContent" column="answer_content" type="string"></property>
+        <set name="rels" table="paper_question_rel" lazy="true" inverse="true">
+        	<key column="paper_id" /><!-- 确定关联的外键列 -->
+            <one-to-many class="com.fnst.paper.pojo.PaperQuestionRel" />
+        </set>
+	</class>
+</hibernate-mapping>
